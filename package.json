@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/merryt/realTimeChat#readme",
   "dependencies": {
-    "nodemon": "^2.0.7",
-    "server": "^1.0.31"
+    "nodemon": "^2.0.7"
   }
 }
