@@ -1,0 +1,24 @@
+{
+  "name": "realtimechat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/merryt/realTimeChat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/merryt/realTimeChat/issues"
+  },
+  "homepage": "https://github.com/merryt/realTimeChat#readme",
+  "dependencies": {
+    "nodemon": "^2.0.7",
+    "server": "^1.0.31"
+  }
+}
