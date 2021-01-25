@@ -1,60 +1,59 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-app id="app" class="fill-height">
+    <v-layout row class="fill-height" style="padding-bottom:60px" >
+      <v-flex md8 offset-md2 style="overflow:auto;" class="pr-3 pl-3" v-if="HANDLE" ref="chatContainer">
+        <div v-for="chat in CHATS" class="mt-4 mb-4" style="max-width:80%">
+          <app-chat-item :chat="chat"></app-chat-item>
+        </div>
+      </v-flex>
+      <v-flex v-else md4 offset-md4 class="text-xs-center">
+        <app-chat-handle></app-chat-handle>
+      </v-flex>
+      <v-bottom-nav :value="true" absolute color="blue">
+        <v-layout>
+          <app-chat-box></app-chat-box>
+        </v-layout>
+      </v-bottom-nav>
+    </v-layout>
+  </v-app>
 </template>
 
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
+ import {mapGetters} from 'vuex'
+ import chatItem from './components/ChatItem'
+ import chatHandle from './components/ChatHandle'
+ import chatBox from './components/ChatBox'
+
+ export default {
+     components: {
+         appChatItem : chatItem,
+         appChatHandle : chatHandle,
+         appChatBox : chatBox,
+     },
+     computed:{
+         ...mapGetters(['CHATS','HANDLE'])
+     },
+     mounted(){
+         this.$store.dispatch("SET_CHAT");
+     },
+     updated(){
+         var container = this.$refs.chatContainer;
+         container.scrollTop = container.scrollHeight;
+     },
+     sockets: {
+         connect: function(){
+             console.log('socket connected');
+         },
+         chat: function(val){
+             this.$store.dispatch("ADD_CHAT",val);
+         }
+     }
+ }
+
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+ html,body{
+     height: 100%
+ }
 </style>
